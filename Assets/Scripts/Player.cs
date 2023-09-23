@@ -118,7 +118,9 @@ public class Player : MonoBehaviour, IKitchenObjectParent
             // move diagonal hit the wall
             // attempt to move in x axis
             Vector3 moveDirX = new Vector3(moveDir.x, 0f, 0f).normalized;
-            canMove = moveDir.x != 0 && !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDirX, moveDistance);
+            // moveDir.x != 0 for keyboard
+            // moveDir.x < -.5f || moveDir.x > +.5f give a threshold for left stick idle
+            canMove = (moveDir.x < -.5f || moveDir.x > +.5f) && !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDirX, moveDistance);
 
             if (canMove)
             {
@@ -128,7 +130,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
             {
                 // attempt to move in z axis
                 Vector3 moveDirZ = new Vector3(0f, 0f, moveDir.z).normalized;
-                canMove = moveDir.z != 0 && !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDirZ, moveDistance);
+                canMove = (moveDir.z < -.5f || moveDir.z > +.5f) && !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDirZ, moveDistance);
 
                 if (canMove)
                 {
